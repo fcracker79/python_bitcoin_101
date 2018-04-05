@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+  pymi_bitcoind:
+    volumes:
+     - /home/mypc/dev/other/python_milano/bitcoin_101/docker/bitcoind/data/:/home/bitcoin/.bitcoin
+    ports:
+      - 18332:18332
+      - 18333:18333
+    environment:
+      - BITCOIN_DATA=/opt/bitcoin
+    # image: seegno/bitcoind
+    build: bitcoind
+    hostname: pymi_bitcoind
+    command: "-conf=/opt/bitcoin/bitcoind.conf"
