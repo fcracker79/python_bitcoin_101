@@ -6,6 +6,8 @@
 #  $(eval $(RUN_ARGS):;@:)
 #endif
 
+reset: clean
+	sudo rm -rf bitcoind/data/bitcoin
 start:
 	docker-compose up
 clean:
