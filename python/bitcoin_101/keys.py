@@ -13,3 +13,6 @@ if __name__ == '__main__':
     print(
         'Signature verified with compact public key:',
         bitcoin.ecdsa_raw_verify(b'a message', signature, pub_compact_key))
+
+    print('Address:', bitcoin.pubtoaddr(pub_key))
+    print('Address (compact):', bitcoin.pubtoaddr(pub_compact_key))

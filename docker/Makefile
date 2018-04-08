@@ -1,10 +1,10 @@
 # If the first argument is "run"...
-ifeq (cli,$(firstword $(MAKECMDGOALS)))
-  # use the rest as arguments for "run"
-  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
-  # ...and turn them into do-nothing targets
-  $(eval $(RUN_ARGS):;@:)
-endif
+# ifeq (cli,$(firstword $(MAKECMDGOALS)))
+#  # use the rest as arguments for "run"
+#  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+#  # ...and turn them into do-nothing targets
+#  $(eval $(RUN_ARGS):;@:)
+#endif
 
 start:
 	docker-compose up
@@ -13,4 +13,5 @@ clean:
 build:
 	docker-compose build
 cli:
-	docker exec -ti docker_pymi_bitcoind_1 bitcoin-cli ${RUN_ARGS}
+	docker exec -ti docker_pymi_bitcoind_1 bitcoin-cli $(filter-out $@,$(MAKECMDGOALS))
+
