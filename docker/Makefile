@@ -7,7 +7,7 @@
 #endif
 
 reset: clean
-	sudo rm -rf bitcoind/data/bitcoin
+	sudo rm -rf bitcoind/data
 start:
 	docker-compose up
 clean:
