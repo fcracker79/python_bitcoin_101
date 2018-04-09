@@ -1,31 +1,9 @@
 import bitcoin
+from hashlib import pbkdf2_hmac
 
 
 def _mnemonic_to_seed(mnemonic_phrase, passphrase=b''):
-    try:
-        from hashlib import pbkdf2_hmac
-        def pbkdf2_hmac_sha256(password, salt, iters=2048):
-            return pbkdf2_hmac(hash_name='sha512', password=password, salt=salt, iterations=iters)
-    except:
-        try:
-            from Crypto.Protocol.KDF import PBKDF2
-            from Crypto.Hash import SHA512, HMAC
-
-            def pbkdf2_hmac_sha256(password, salt, iters=2048):
-                return PBKDF2(password=password, salt=salt, dkLen=64, count=iters,
-                              prf=lambda p, s: HMAC.new(p, s, SHA512).digest())
-        except:
-            try:
-
-                from pbkdf2 import PBKDF2
-                import hmac
-                def pbkdf2_hmac_sha256(password, salt, iters=2048):
-                    return PBKDF2(password, salt, iterations=iters, macmodule=hmac, digestmodule=hashlib.sha512).read(
-                        64)
-            except:
-                raise RuntimeError("No implementation of pbkdf2 was found!")
-
-    return pbkdf2_hmac_sha256(password=mnemonic_phrase, salt=b'mnemonic' + passphrase)
+    return pbkdf2_hmac(hash_name='sha512', password=mnemonic_phrase, salt=b'mnemonic' + passphrase, iterations=2048)
 
 
 def _derived_key(master_key: str, *path: int) -> str:
@@ -44,13 +22,14 @@ def _derive_and_print(master_key: str, *path: int, derive_pub_key: bool=True):
         derived_pub_key = 'N.A.'
     derived_pub_key_from_key = bitcoin.bip32_privtopub(derived_key)
     print(
-        '''Derivation path: {},
-        Derived key: {},
-        Derived public key: {},
-        Derived public key from private: {}
-    '''.format(
+        '''    Derivation path: ({}),
+    Derived key: {},
+    Derived public key: {},
+    Derived public key from private: {}
+    '''
+        .format(
+            ', '.join(str(x) if x <= 2 ** 31 else str(x - 2 ** 31) + '\'' for x in path),
             master_key,
-            ', '.join(str(x) if x <= 2**31 else str(x - 2**31) + '\'' for x in path),
             derived_key, derived_pub_key, derived_pub_key_from_key))
 
 
