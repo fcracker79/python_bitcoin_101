@@ -1,4 +1,4 @@
-docker/bitcoind/data/bitcoin
+docker/bitcoind/data/
 python/venv
 python/.idea
 __pycache__
