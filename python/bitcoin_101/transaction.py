@@ -1,7 +1,6 @@
-from pprint import pprint
-
 import bitcoin
 
+from bitcoin_101 import bitprint
 
 if __name__ == '__main__':
     key = bitcoin.random_key()
@@ -15,17 +14,17 @@ if __name__ == '__main__':
         [{'output': k, 'value': v} for k, v in outpoints.items()],
         [{'value': 90000, 'address': '16iw1MQ1sy1DtRPYw3ao1bCamoyBJtRB4t'}]
     )
-    print('Raw transaction:', tx)
-    print('Deserialized transaction')
-    pprint(bitcoin.deserialize(tx))
+    bitprint('Raw transaction:', tx)
+    bitprint('Deserialized transaction')
+    bitprint(bitcoin.deserialize(tx))
 
     one_signed_tx = bitcoin.sign(tx, 0, key)
-    print(one_signed_tx)
-    print('ScriptSig for the first input')
-    pprint(bitcoin.deserialize_script(
+    bitprint(one_signed_tx)
+    bitprint('ScriptSig for the first input')
+    bitprint(bitcoin.deserialize_script(
         bitcoin.deserialize(one_signed_tx)['ins'][0]['script'])
     )
-    print('ScriptPubKey for the first output')
-    pprint(bitcoin.deserialize_script(
+    bitprint('ScriptPubKey for the first output')
+    bitprint(bitcoin.deserialize_script(
         bitcoin.deserialize(one_signed_tx)['outs'][0]['script'])
     )

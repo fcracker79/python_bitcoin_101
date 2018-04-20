@@ -1,18 +1,19 @@
 import bitcoin
 
+from bitcoin_101 import bitprint
 
 if __name__ == '__main__':
     key = bitcoin.random_key()
-    print('Private key:', key)
+    bitprint('Private key:', key)
     pub_key = bitcoin.privtopub(key)
     pub_compact_key = bitcoin.privtopub(key + '01')
-    print('Public key:', pub_key)
-    print('Public compact key:', pub_compact_key)
+    bitprint('Public key:', pub_key)
+    bitprint('Public compact key:', pub_compact_key)
     signature = bitcoin.ecdsa_raw_sign(b'a message', key)
-    print('Signature verified:', bitcoin.ecdsa_raw_verify(b'a message', signature, pub_key))
-    print(
+    bitprint('Signature verified:', bitcoin.ecdsa_raw_verify(b'a message', signature, pub_key))
+    bitprint(
         'Signature verified with compact public key:',
         bitcoin.ecdsa_raw_verify(b'a message', signature, pub_compact_key))
 
-    print('Address:', bitcoin.pubtoaddr(pub_key))
-    print('Address (compact):', bitcoin.pubtoaddr(pub_compact_key))
+    bitprint('Address:', bitcoin.pubtoaddr(pub_key))
+    bitprint('Address (compact):', bitcoin.pubtoaddr(pub_compact_key))

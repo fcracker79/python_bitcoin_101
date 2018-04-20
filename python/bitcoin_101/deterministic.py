@@ -1,6 +1,8 @@
 import bitcoin
 from hashlib import pbkdf2_hmac
 
+from bitcoin_101 import bitprint
+
 
 def _mnemonic_to_seed(mnemonic_phrase, passphrase=b''):
     return pbkdf2_hmac(hash_name='sha512', password=mnemonic_phrase, salt=b'mnemonic' + passphrase, iterations=2048)
@@ -46,13 +48,13 @@ def _derive_and_print(master_key: str, *path: int, derive_pub_key: bool=True, ma
 def _print_master_key_and_derived(vbytes: bytes, magicbyte: int):
     seed = _mnemonic_to_seed(b'This is a very funny mnemonic')
     master_key = bitcoin.bip32_master_key(seed, vbytes=vbytes)
-    print('Master key:', master_key)
+    bitprint('Master key:', master_key)
     _derive_and_print(master_key, 1, 2, 3, magicbyte=magicbyte)
     _derive_and_print(master_key, 1 + 2 ** 31, 2, 3, derive_pub_key=False, magicbyte=magicbyte)
 
 
 if __name__ == '__main__':
-    print('\nMAINNET\n')
+    bitprint('\nMAINNET\n')
     _print_master_key_and_derived(bitcoin.MAINNET_PRIVATE, 0)
-    print('\nTESTNET\n')
+    bitprint('\nTESTNET\n')
     _print_master_key_and_derived(bitcoin.TESTNET_PRIVATE, 111)
