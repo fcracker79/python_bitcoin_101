@@ -2,3 +2,4 @@ docker/bitcoind/data/
 python/venv
 python/.idea
 __pycache__
+python/temp
