@@ -16,7 +16,7 @@ def _derived_key(master_key: str, *path: int) -> str:
 
 
 def _derive_and_print(master_key: str, *path: int, derive_pub_key: bool=True, magicbyte: int=0):
-    master_pub_key = _derived_key(bitcoin.bip32_privtopub(master_key))
+    master_pub_key = bitcoin.bip32_privtopub(master_key)
     derived_key = _derived_key(master_key, *path)
     if derive_pub_key:
         derived_bip32_pub_key = _derived_key(master_pub_key, *path)
